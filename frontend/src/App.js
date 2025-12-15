@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import StatusDonut from "./StatusDonut";
 
+const API_BASE = (process.env.REACT_APP_API_URL || "").replace(/\/$/, "");
 /*
   Demo data is used when the backend API is unavailable.
   This allows the dashboard to remain functional without external services.
@@ -82,10 +83,13 @@ export default function App() {
     setUsingDemoData(false);
 
     try {
-      const [summaryRes, issuesRes] = await Promise.all([
-        fetch("/api/summary"),
-        fetch("/api/issues"),
-      ]);
+const API_BASE =
+  process.env.REACT_APP_API_URL?.replace(/\/$/, "") || "";
+
+const [summaryRes, issuesRes] = await Promise.all([
+  fetch(`${API_BASE}/api/summary`),
+  fetch(`${API_BASE}/api/issues`),
+]);
 
       if (!summaryRes.ok || !issuesRes.ok) {
         throw new Error("Backend API error");
